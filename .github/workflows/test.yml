@@ -1,7 +1,7 @@
 name: Test Setup
 
 on:
-  workflow_dispatch:  # Manual trigger only
+  workflow_dispatch:
 
 jobs:
   test:
@@ -14,7 +14,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: '3.14'
+          python-version: '3.12'
 
       - name: Install dependencies
         run: |
@@ -29,75 +29,18 @@ jobs:
           TWILIO_SID: ${{ secrets.TWILIO_SID }}
           TWILIO_WHATSAPP_NUMBER: ${{ secrets.TWILIO_WHATSAPP_NUMBER }}
         run: |
-          if [ -z "$MY_WHATSAPP" ]; then
-            echo "MY_WHATSAPP secret is not set!"
-            echo "Go to Settings > Secrets > Actions and add it."
-            exit 1
-          else
-            echo "MY_WHATSAPP is configured"
-          fi
-
-          if [ -z "$OWM_API" ]; then
-            echo "OWM_API secret is not set!"
-            echo "Go to Settings > Secrets > Actions and add it."
-            exit 1
-          else
-            echo "OWM_API is configured"
-          fi
-
-          if [ -z "$TWILIO_AUTH" ]; then
-            echo "TWILIO_AUTH secret is not set!"
-            echo "Go to Settings > Secrets > Actions and add it."
-            exit 1
-          else
-            echo "TWILIO_AUTH is configured"
-          fi
-
-          if [ -z "$TWILIO_SID" ]; then
-            echo "TWILIO_SID secret is not set!"
-            echo "Go to Settings > Secrets > Actions and add it."
-            exit 1
-          else
-            echo "TWILIO_SID is configured"
-          fi
-
-          if [ -z "$TWILIO_WHATSAPP_NUMBER" ]; then
-            echo "TWILIO_WHATSAPP_NUMBER secret is not set!"
-            echo "Go to Settings > Secrets > Actions and add it."
-            exit 1
-          else
-            echo "TWILIO_WHATSAPP_NUMBER is configured"
-          fi
-
-          echo ""
+          if [ -z "$MY_WHATSAPP" ]; then echo "MY_WHATSAPP secret is not set!"; exit 1; else echo "MY_WHATSAPP is configured"; fi
+          if [ -z "$OWM_API" ]; then echo "OWM_API secret is not set!"; exit 1; else echo "OWM_API is configured"; fi
+          if [ -z "$TWILIO_AUTH" ]; then echo "TWILIO_AUTH secret is not set!"; exit 1; else echo "TWILIO_AUTH is configured"; fi
+          if [ -z "$TWILIO_SID" ]; then echo "TWILIO_SID secret is not set!"; exit 1; else echo "TWILIO_SID is configured"; fi
+          if [ -z "$TWILIO_WHATSAPP_NUMBER" ]; then echo "TWILIO_WHATSAPP_NUMBER secret is not set!"; exit 1; else echo "TWILIO_WHATSAPP_NUMBER is configured"; fi
           echo "All secrets are configured!"
 
       - name: Check required files exist
         run: |
-          echo "Checking for required files..."
-
-          if [ -f "main.py" ]; then
-            echo "main.py found"
-          else
-            echo "main.py not found!"
-            exit 1
-          fi
-
-          if [ -f "requirements.txt" ]; then
-            echo "requirements.txt found"
-          else
-            echo "requirements.txt not found!"
-            exit 1
-          fi
-
-          if [ -f "birthdays.csv" ]; then
-            echo "birthdays.csv found"
-          else
-            echo "birthdays.csv not found!"
-            exit 1
-          fi
-
-          echo ""
+          [ -f "main.py" ] && echo "main.py found" || { echo "main.py not found!"; exit 1; }
+          [ -f "requirements.txt" ] && echo "requirements.txt found" || { echo "requirements.txt not found!"; exit 1; }
+          [ -f "birthdays.csv" ] && echo "birthdays.csv found" || { echo "birthdays.csv not found!"; exit 1; }
           echo "All required files found!"
 
       - name: Test Python syntax
@@ -105,7 +48,6 @@ jobs:
 
       - name: Success
         run: |
-          echo ""
           echo "========================================"
           echo "  All checks passed!"
           echo "  Your setup is ready to go."
