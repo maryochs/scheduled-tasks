@@ -9,12 +9,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.12'
+          python-version: '3.14'
 
       - name: Install dependencies
         run: |
@@ -23,23 +23,50 @@ jobs:
 
       - name: Check secrets are configured
         env:
-          MY_EMAIL: ${{ secrets.MY_EMAIL }}
-          MY_PASSWORD: ${{ secrets.MY_PASSWORD }}
+          MY_WHATSAPP: ${{ secrets.MY_WHATSAPP }}
+          OWM_API: ${{ secrets.OWM_API }}
+          TWILIO_AUTH: ${{ secrets.TWILIO_AUTH }}
+          TWILIO_SID: ${{ secrets.TWILIO_SID }}
+          TWILIO_WHATSAPP_NUMBER: ${{ secrets.TWILIO_WHATSAPP_NUMBER }}
         run: |
-          if [ -z "$MY_EMAIL" ]; then
-            echo "MY_EMAIL secret is not set!"
+          if [ -z "$MY_WHATSAPP" ]; then
+            echo "MY_WHATSAPP secret is not set!"
             echo "Go to Settings > Secrets > Actions and add it."
             exit 1
           else
-            echo "MY_EMAIL is configured"
+            echo "MY_WHATSAPP is configured"
           fi
 
-          if [ -z "$MY_PASSWORD" ]; then
-            echo "MY_PASSWORD secret is not set!"
+          if [ -z "$OWM_API" ]; then
+            echo "OWM_API secret is not set!"
             echo "Go to Settings > Secrets > Actions and add it."
             exit 1
           else
-            echo "MY_PASSWORD is configured"
+            echo "OWM_API is configured"
+          fi
+
+          if [ -z "$TWILIO_AUTH" ]; then
+            echo "TWILIO_AUTH secret is not set!"
+            echo "Go to Settings > Secrets > Actions and add it."
+            exit 1
+          else
+            echo "TWILIO_AUTH is configured"
+          fi
+
+          if [ -z "$TWILIO_SID" ]; then
+            echo "TWILIO_SID secret is not set!"
+            echo "Go to Settings > Secrets > Actions and add it."
+            exit 1
+          else
+            echo "TWILIO_SID is configured"
+          fi
+
+          if [ -z "$TWILIO_WHATSAPP_NUMBER" ]; then
+            echo "TWILIO_WHATSAPP_NUMBER secret is not set!"
+            echo "Go to Settings > Secrets > Actions and add it."
+            exit 1
+          else
+            echo "TWILIO_WHATSAPP_NUMBER is configured"
           fi
 
           echo ""
