@@ -2,14 +2,14 @@ import os
 import requests
 from twilio.rest import Client
 
-api_key = OWM_API
+api_key = os.environ.get("OWM_API")
 OWM_Endpoint = "https://api.openweathermap.org/data/2.5/forecast"
 CNT_COUNT = 5
 
-account_sid = TWILIO_SID
-auth_token = TWILIO_AUTH
-twilio_phone = TWILIO_WHATSAPP_NUMBER
-my_phone = MY_WHATSAPP
+account_sid = os.environ.get("TWILIO_SID")
+auth_token = os.environ.get("TWILIO_AUTH")
+twilio_phone = os.environ.get("TWILIO_WHATSAPP_NUMBER")
+my_phone = os.environ.get("MY_WHATSAPP")
 
 parameters = {
     "lat": -9.442020,
